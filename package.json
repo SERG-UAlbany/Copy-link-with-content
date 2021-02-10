@@ -1,0 +1,49 @@
+{
+  "name": "link-to-text-fragment",
+  "version": "1.2.0",
+  "description": "Browser extension that allows for linking to arbitrary text fragments.",
+  "scripts": {
+    "fix": "npx prettier --write .",
+    "lint": "npx eslint ./*.js --fix",
+    "prepare": "npm run fix && npm run lint && shx cp ./node_modules/text-fragments-polyfill/dist/text-fragments.js .",
+    "safari": "xcrun safari-web-extension-converter . --project-location ../safari-extensions/link-to-text-fragment --copy-resources --swift --force --bundle-identifier com.google.googlechromelabs.link-to-text-fragment"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoogleChromeLabs/link-to-text-fragment.git"
+  },
+  "keywords": [
+    "text fragment",
+    "link to text fragment",
+    "scroll to text fragment"
+  ],
+  "author": "Thomas Steiner (https://blog.tomayac.com/)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/GoogleChromeLabs/link-to-text-fragment/issues"
+  },
+  "homepage": "https://github.com/GoogleChromeLabs/link-to-text-fragment#readme",
+  "devDependencies": {
+    "eslint": "^7.12.1",
+    "eslint-config-google": "^0.14.0",
+    "shx": "^0.3.3",
+    "text-fragments-polyfill": "1.0.0"
+  },
+  "eslintConfig": {
+    "env": {
+      "es6": true,
+      "browser": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module"
+    },
+    "extends": [
+      "eslint:recommended",
+      "google"
+    ]
+  },
+  "dependencies": {
+    "crx3": "^1.1.3"
+  }
+}

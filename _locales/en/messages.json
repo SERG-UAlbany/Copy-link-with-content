@@ -1,0 +1,17 @@
+{
+  "extension_name": {
+    "message": "Copy Content with Link"
+  },
+  "extension_short_name": {
+    "message": "Copy Reference"
+  },
+  "extension_description": {
+    "message": "Browser extension that allows for linking to arbitrary text on a page & copy the content."
+  },
+  "copy_link": {
+    "message": "Copy Selected Text to KF"
+  },
+  "link_failure": {
+    "message": "Couldn't create a unique link, please select a longer sequence of words."
+  }
+}
