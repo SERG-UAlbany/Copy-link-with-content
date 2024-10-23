@@ -162,6 +162,16 @@
         nextNode.nodeValue :
         nextNode.innerText :
       '';
+
+    //Fetch filename
+    let filename = ''
+    if (closestElementFragment === "viewer") {
+        const relatedDiv = document.getElementById("attach-name");
+        if (relatedDiv) {
+            filename = relatedDiv.querySelector('a').getAttribute('id')
+        }
+    }
+
     const data = {
       selectedText: cleanText(selectedText),
       pageText: cleanText(pageText),
@@ -170,6 +180,7 @@
       textNodeBeforeSelection: cleanText(textNodeBeforeSelection),
       textNodeAfterSelection: cleanText(textNodeAfterSelection),
       closestElementFragment,
+      filename
     };
     log(data);
     return data;

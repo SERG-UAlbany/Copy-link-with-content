@@ -127,7 +127,7 @@
     console.log("in Start Processing");
 
     console.log(tab);
-    const textFragmentURL = await createURL(tab.url);
+    const { textFragmentURL, filename } = await createURL(tab.url);
 
     console.log(textFragmentURL);
     if (textFragmentURL == false) {        
@@ -145,7 +145,7 @@
       }
       return log('😔 Failed to create unique link.\n\n\n');
     }
-    await copyToClipboard(textFragmentURL, selectionText);
+    await copyToClipboard(textFragmentURL, selectionText, filename);
   };
 
   const escapeRegExp = (s) => {
@@ -372,6 +372,7 @@
       textNodeBeforeSelection,
       textNodeAfterSelection,
       closestElementFragment,
+      filename
     } = pageResponse;
 
     if (!selectedText) {
@@ -400,7 +401,7 @@
       textEnd = textEnd ?
         `,${encodeURIComponentAndMinus(unescapeRegExp(textEnd))}` :
         '';
-      return (textFragmentURL += `:~:text=${textStart}${textEnd}`);
+      return { textFragmentURL: textFragmentURL += `:~:text=${textStart}${textEnd}`, filename };
     } else if (unique === null) {
       return false;
     }
@@ -423,7 +424,7 @@
           textEnd = textEnd ?
             `,${encodeURIComponentAndMinus(unescapeRegExp(textEnd))}` :
             '';
-          return (textFragmentURL += `:~:text=${textStart}${textEnd}`);
+          return { textFragmentURL: textFragmentURL += `:~:text=${textStart}${textEnd}`, filename };
         } else if (unique === null) {
           return false;
         }
@@ -442,7 +443,7 @@
           // We have a unique match, return it.
           textStart = encodeURIComponentAndMinus(unescapeRegExp(textStart));
           textEnd = encodeURIComponentAndMinus(unescapeRegExp(textEnd));
-          return (textFragmentURL += `:~:text=${textStart}${textEnd}`);
+          return { textFragmentURL: textFragmentURL += `:~:text=${textStart}${textEnd}`, filename };
         } else if (unique === null) {
           return false;
         }
@@ -500,7 +501,7 @@
       `,${encodeURIComponentAndMinus(unescapeRegExp(textEnd))}` :
       '';
     textFragmentURL += `:~:text=${prefix}${textStart}${textEnd}${suffix}`;
-    return textFragmentURL;
+    return { textFragmentURL, filename };
   };
 
   const sendMessageToPage = (message, data = null) => {
@@ -531,7 +532,7 @@
     });
   };
 
-  const copyToClipboard = async (url, selectionText) => {
+  const copyToClipboard = async (url, selectionText, filename) => {
     // Try to use the Async Clipboard API with fallback to the legacy approach.
 
     //console.log(window.getSelection().selectedText.toString());
@@ -548,7 +549,7 @@
     node.setAttribute('id', 'mySelect');
 
 
-    node.innerHTML = `<div class="kf_reference_copy"> <div class="kf_reference_content">${selectionText.italics()}</div> | <a target="_blank" class="kf_reference_url" href="${url}" >reference:${URLOBJ.hostname}</a> </div>`;
+    node.innerHTML = `<div class="kf_reference_copy"> <div class="kf_reference_content">${selectionText.italics()}</div> | <a target="_blank" class="kf_reference_url" href="${url}" >reference:${URLOBJ.hostname}</a> | <div class="kf-reference-content">${filename}</div>  </div>`;
     document.body.appendChild(node);
     var range = document.createRange();
     range.selectNode(document.getElementById('mySelect'));
