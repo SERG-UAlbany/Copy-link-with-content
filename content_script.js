@@ -164,11 +164,11 @@
       '';
 
     //Fetch filename
-    let filename = ''
+    let fileurl = ''
     if (closestElementFragment === "viewer") {
         const relatedDiv = document.getElementById("attach-name");
         if (relatedDiv) {
-            filename = relatedDiv.querySelector('a').getAttribute('id')
+            fileurl = relatedDiv.querySelector('a').getAttribute('id')
         }
     }
 
@@ -180,7 +180,7 @@
       textNodeBeforeSelection: cleanText(textNodeBeforeSelection),
       textNodeAfterSelection: cleanText(textNodeAfterSelection),
       closestElementFragment,
-      filename
+      fileurl
     };
     log(data);
     return data;
