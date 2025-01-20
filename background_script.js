@@ -372,6 +372,7 @@
       textNodeBeforeSelection,
       textNodeAfterSelection,
       closestElementFragment,
+      fileurl
     } = pageResponse;
 
     if (!selectedText) {
@@ -379,7 +380,7 @@
     }
 
     tabURL = new URL(tabURL);
-    let textFragmentURL = `${tabURL.origin}${tabURL.pathname}${tabURL.search}${
+    let textFragmentURL = `${tabURL.origin}${fileurl ? '/contribution/' + fileurl + '/' + tabURL.pathname.split('/').pop() : tabURL.pathname}${tabURL.search}${
       closestElementFragment ? `#${closestElementFragment}` : '#'
       }`;
 
@@ -400,7 +401,7 @@
       textEnd = textEnd ?
         `,${encodeURIComponentAndMinus(unescapeRegExp(textEnd))}` :
         '';
-      return (textFragmentURL += `:~:text=${textStart}${textEnd}`);
+      return textFragmentURL += `:~:text=${textStart}${textEnd}`;
     } else if (unique === null) {
       return false;
     }
@@ -423,7 +424,7 @@
           textEnd = textEnd ?
             `,${encodeURIComponentAndMinus(unescapeRegExp(textEnd))}` :
             '';
-          return (textFragmentURL += `:~:text=${textStart}${textEnd}`);
+          return textFragmentURL += `:~:text=${textStart}${textEnd}`;
         } else if (unique === null) {
           return false;
         }
@@ -442,7 +443,7 @@
           // We have a unique match, return it.
           textStart = encodeURIComponentAndMinus(unescapeRegExp(textStart));
           textEnd = encodeURIComponentAndMinus(unescapeRegExp(textEnd));
-          return (textFragmentURL += `:~:text=${textStart}${textEnd}`);
+          return textFragmentURL += `:~:text=${textStart}${textEnd}`;
         } else if (unique === null) {
           return false;
         }
@@ -548,7 +549,7 @@
     node.setAttribute('id', 'mySelect');
 
 
-    node.innerHTML = `<div class="kf_reference_copy"> <div class="kf_reference_content">${selectionText.italics()}</div> | <a target="_blank" class="kf_reference_url" href="${url}" >reference:${URLOBJ.hostname}</a> </div>`;
+    node.innerHTML = `<div class="kf_reference_copy"> <div class="kf_reference_content">${selectionText.italics()}</div> | <a target="_blank" class="kf_reference_url" href="${url}" >reference:${URLOBJ.hostname}</a></div>`;
     document.body.appendChild(node);
     var range = document.createRange();
     range.selectNode(document.getElementById('mySelect'));
